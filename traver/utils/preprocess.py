@@ -4,7 +4,7 @@ import random
 import time
 from argparse import ArgumentParser
 from openai import AzureOpenAI
-from utils import adjust_indent, load_api
+from utils.utils import adjust_indent, load_api
 
 
 def parse_args():

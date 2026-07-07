@@ -4,7 +4,7 @@ from tqdm import tqdm
 from argparse import ArgumentParser
 import os
 import re
-from utils import load_finished_data
+from utils.utils import load_finished_data
 
 def parse_args():
     parser = ArgumentParser()

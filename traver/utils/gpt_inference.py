@@ -4,7 +4,7 @@ from tqdm import tqdm
 import time, json
 import multiprocessing
 import argparse
-from utils import load_api, load_finished_data
+from utils.utils import load_api, load_finished_data
 
 
 def parse_args():
