@@ -10,7 +10,7 @@ from chatarena.agent_tutor import Tutor
 from chatarena.backends import GPTChat, O1Chat, VLLMChat
 from chatarena.environments.conversation_tutoring import TutoringConversation
 from chatarena.arena_tutoring import TutoringArena
-from utils import (
+from utils.utils import (
     load_json_dict,
     load_json_data, 
     load_api, 

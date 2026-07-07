@@ -1,7 +1,7 @@
 import json
 import os
 import re
-from utils import load_json_data
+from utils.utils import load_json_data
 from tqdm import tqdm
 from argparse import ArgumentParser
 import tiktoken
