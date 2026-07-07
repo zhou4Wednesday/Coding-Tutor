@@ -172,3 +172,18 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Reproduction local artifacts
+.env
+*.key
+*.pem
+
+logs/
+results/
+checkpoints/
+models/
+wandb/
+
+__pycache__/
+*.pyc
+.pytest_cache/
