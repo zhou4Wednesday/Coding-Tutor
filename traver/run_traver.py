@@ -7,7 +7,7 @@ import tiktoken
 from tqdm import tqdm
 from chatarena.agent import Player, Moderator
 from chatarena.agent_tutor import Tutor
-from chatarena.backends import GPTChat, O1Chat, VLLMChat
+from chatarena.backends import GPTChat, O1Chat, OpenAIChat, VLLMChat
 from chatarena.environments.conversation_tutoring import TutoringConversation
 from chatarena.arena_tutoring import TutoringArena
 from utils.utils import (
@@ -55,6 +55,8 @@ def parse_args():
     
     parser.add_argument('--api_key_file', type=str, default=None)
     parser.add_argument('--azure_endpoint', type=str, default=None)
+    parser.add_argument('--tutor_openai_base_url', type=str, default=None,
+                        help="OpenAI-compatible base URL for tutor APIs such as OpenRouter.")
     parser.add_argument('--vllm_api_key', type=str, default='EMPTY')
     parser.add_argument('--vllm_endpoint_tutor', type=str, default='http://localhost:8001/v1')
     parser.add_argument('--vllm_endpoint_student', type=str, default='http://localhost:8002/v1')
@@ -177,7 +179,19 @@ def interactive_simulation(args, prompt_data, tutor_backend, student_backend, mo
 def run_simulation(args, prompt_data, verifier_model=None, verifier_data_builder=None):
     print(f"Total of {len(prompt_data)} prompt samples.")
 
-    if "gpt-" in args.tutor_model_name_or_path:
+    if args.tutor_openai_base_url is not None:
+        assert args.api_key_file is not None, "Please provide the API key file for the tutor API."
+        api_key = load_api(args.api_key_file)
+        tutor_backend = OpenAIChat(
+            api_key=api_key,
+            base_url=args.tutor_openai_base_url,
+            model=args.tutor_model_name_or_path,
+            temperature=args.temperature,
+            top_p=args.top_p,
+            max_tokens=args.tutor_max_tokens,
+            max_latest_messages=args.max_latest_messages
+        )
+    elif "gpt-" in args.tutor_model_name_or_path:
         assert args.api_key_file is not None, "Please provide the API key file for OpenAI."
         api_key = load_api(args.api_key_file)
         if args.tutor_model_name_or_path == "gpt-3.5":
